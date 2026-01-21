@@ -46,6 +46,9 @@ env:
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
+    defaults:
+      run:
+        working-directory: frontend
 
     permissions:
       contents: 'read'
@@ -79,7 +82,6 @@ jobs:
 
       - name: 'Create Env'
         run: |- 
-          cd frontend
           echo "${{ secrets.FRONTEND_ENV }}" > .env
           
       - name: 'Build and Push Container'
