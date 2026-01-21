@@ -73,7 +73,7 @@ function App() {
       <div className='container'>
         {/* Header */}
         <header className='header'>
-          <h1>🚀 DevOps Sample App</h1>
+          <h1>🚀 DevOps Sample Application</h1>
           <p>
             A three-tier full-stack application for learning DevOps deployment
             practices
