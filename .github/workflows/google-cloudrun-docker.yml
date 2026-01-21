@@ -77,10 +77,14 @@ jobs:
           password: '${{ steps.auth.outputs.auth_token }}'
           registry: '${{ env.REGION }}-docker.pkg.dev'
 
+      - name: 'Create Env'
+        run: |- 
+          cd frontend
+          echo "${{ secrets.FRONTEND_ENV }}" > .env
+          
       - name: 'Build and Push Container'
         run: |-
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{env.REPO_NAME}}/${{ env.IMAGE }}:${{ github.sha }}"
-          cd frontend
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
       - name: 'Deploy to Cloud Run'
