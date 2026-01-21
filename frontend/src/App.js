@@ -84,7 +84,7 @@ function App() {
         <section className='health-section'>
           <div className='health-card'>
             <div className='health-header'>
-              <h2>🏥 System Health</h2>
+              <h2>🏥 System Health Monitoring</h2>
               {healthLoading ? (
                 <span className='status-badge loading'>
                   <span className='status-indicator'></span>
@@ -92,9 +92,8 @@ function App() {
                 </span>
               ) : (
                 <span
-                  className={`status-badge ${
-                    health?.status === 'healthy' ? 'healthy' : 'unhealthy'
-                  }`}
+                  className={`status-badge ${health?.status === 'healthy' ? 'healthy' : 'unhealthy'
+                    }`}
                 >
                   <span className='status-indicator'></span>
                   {health?.status === 'healthy'
@@ -183,9 +182,8 @@ function App() {
                   <div className='item-details'>
                     <div className='item-price'>${item.price}</div>
                     <div
-                      className={`item-stock ${
-                        item.inStock ? 'in-stock' : 'out-of-stock'
-                      }`}
+                      className={`item-stock ${item.inStock ? 'in-stock' : 'out-of-stock'
+                        }`}
                     >
                       {item.inStock ? '✓' : '✗'} {item.stock} in stock
                     </div>
