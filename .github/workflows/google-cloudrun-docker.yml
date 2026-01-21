@@ -64,7 +64,10 @@ jobs:
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ env.SERVICE_ACCOUNT }}'
-
+      - name: Debug active account
+        run: |
+          gcloud auth list
+          gcloud config list
       # BEGIN - Docker auth and build
       #
       # If you already have a container image, you can omit these steps.
