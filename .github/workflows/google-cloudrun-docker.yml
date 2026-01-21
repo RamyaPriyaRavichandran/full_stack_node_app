@@ -32,12 +32,13 @@ name: 'Build and Deploy to Cloud Run'
 on:
   push:
     branches:
-      - '"main"'
+      - 'main'
   workflow_dispatch: 
 
 env:
   PROJECT_ID: 'project-69bfb15c-9c40-4954-918' # TODO: update to your Google Cloud project ID
   REGION: 'asia-south1' # TODO: update to your region
+  REPO_NAME: 'my-docker-repo'
   SERVICE: 'frontend-image' # TODO: update to your service name
   WORKLOAD_IDENTITY_PROVIDER: 'projects/574341049432/locations/global/workloadIdentityPools/github-poolv1/providers/github-provider' # TODO: update to your workload identity provider
 
@@ -75,7 +76,7 @@ jobs:
 
       - name: 'Build and Push Container'
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{env.REPO_NAME}}/${{ env.SERVICE }}:${{ github.sha }}"
           cd frontend
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
