@@ -17,7 +17,7 @@ env:
   WORKLOAD_IDENTITY_PROVIDER: 'projects/574341049432/locations/global/workloadIdentityPools/github-poolv1/providers/github-provider' # TODO: update to your workload identity provider
   SERVICE_ACCOUNT: 'github-ci@project-69bfb15c-9c40-4954-918.iam.gserviceaccount.com'
 jobs:
-  deploy:
+  build:
     runs-on: 'ubuntu-latest'
     defaults:
       run:
@@ -62,8 +62,27 @@ jobs:
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{env.REPO_NAME}}/${{ env.IMAGE }}:${{ github.sha }}"
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
-      - name: 'Deploy to Cloud Run'
+  deploy:
+    runs-on: 'ubuntu-latest'
+    needs: build   # ensures deploy runs after build
 
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2'
+        with: 
+           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
+           service_account: '${{ env.SERVICE_ACCOUNT }}'
+
+      - name: 'Set GCP Project'
+        run: |
+          gcloud config set project ${{ env.PROJECT_ID }}
+          
+      - name: 'Deploy to Cloud Run'
+        id: deploy
         # END - Docker auth and build
 
         uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
