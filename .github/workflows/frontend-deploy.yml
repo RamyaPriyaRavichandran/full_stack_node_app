@@ -100,8 +100,8 @@ jobs:
       id-token: 'write'
 
     steps:
-      - name: 'Checkout'
-        uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332'
+       # - name: 'Checkout'
+       #   uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332'
 
       - name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2'
